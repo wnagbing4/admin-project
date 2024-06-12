@@ -14,3 +14,14 @@ Object.keys(routeFiles).forEach((routeModule: string) => {
     // @ts-ignore
     routeFiles[routeModule].default && routeConfiguras.push(routeFiles[routeModule].default)
 })
+// 动态添加路由
+export const useMiddleware = (router: Router) => {
+    router.beforeEach((to, from, next) => {
+      routeConfiguras.forEach((routeModule: RouteRecordRaw) => {
+        router.addRoute(routeModule)
+      })
+      nextTick(() => {
+        return next()
+      })
+    })
+  }
