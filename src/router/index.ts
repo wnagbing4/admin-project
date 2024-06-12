@@ -25,10 +25,14 @@ const constantRoutes: RouteRecordRaw[] = [
       }
     ]
   },
+  // {
+  //   path: '/404',
+  //   name: '404',
+  //   // @ts-ignore
+  //   component: () => import('@/views/404.vue')
+  // }
   {
-    path: '/404',
-    name: '404',
-    // @ts-ignore
+    path: '/:catchAll(.*)',
     component: () => import('@/views/404.vue')
   }
 ]

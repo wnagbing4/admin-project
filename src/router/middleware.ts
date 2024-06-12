@@ -1,7 +1,6 @@
-
 // 将动态路由添加到路由表中
 
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw,Router } from 'vue-router'
 
 // 1. 获取modules目录下所有的动态路由文件
 const routeFiles = import.meta.glob('./modules/*.ts', { eager: true })
@@ -17,11 +16,11 @@ Object.keys(routeFiles).forEach((routeModule: string) => {
 // 动态添加路由
 export const useMiddleware = (router: Router) => {
     router.beforeEach((to, from, next) => {
-      routeConfiguras.forEach((routeModule: RouteRecordRaw) => {
-        router.addRoute(routeModule)
-      })
-      nextTick(() => {
-        return next()
-      })
+        routeConfiguras.forEach((routeModule: RouteRecordRaw) => {
+            router.addRoute(routeModule)
+        })
+        nextTick(() => {
+            return next()
+        })
     })
-  }
+}
