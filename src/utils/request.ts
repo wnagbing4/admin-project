@@ -7,6 +7,9 @@ import axios, {
 } from 'axios'
 import { ElMessage } from 'element-plus'
 
+import { useAuthStore } from '@/stores/auth'
+// import { useRouter } from 'vue-router'
+
 import DOMPurify from 'dompurify'
 type RequestCustomConfig = {
   isPurify: boolean
@@ -28,6 +31,11 @@ const service: AxiosInstance = axios.create({
 // 安装一个插件, &lt;script&gt;</script>
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    const store = useAuthStore()
+    if (store.token) {
+      config.headers.Authorization = `Bearer ${store.token}`
+    }
+
     return config
   },
   (error: AxiosError) => {
@@ -43,11 +51,11 @@ service.interceptors.response.use(
   (response: AxiosResponse) => {
     console.log('response=>', response)
     if (response.data.code === 200) {
-      return response.data.data
+      return response.data
     }
   },
-  (error: AxiosError<ResponseDataType>) => {
-    console.log('error=>', error)
+  async (error: AxiosError<ResponseDataType>) => {
+    const store = useAuthStore()
 
     let message = ''
 
@@ -57,7 +65,13 @@ service.interceptors.response.use(
           message = '登录过期，请重新登录'
 
           // TODO : 清除token,以及用户信息
+          await store.resetUser()
+
           // TODO : 回到登录页
+          // router.push('/login')
+
+          window.location.reload()
+
           break
         case 403:
           message = '没有权限'
@@ -72,7 +86,7 @@ service.interceptors.response.use(
           message = (error.response.data && error.response.data.msg) || '网络错误'
       }
     }
-
+    console.log('123')
     ElMessage({
       message,
       type: 'error',
@@ -149,3 +163,10 @@ export const del = <T = any>(url: string, data: Object) => {
 
 // 导出axios实例对象
 export default request
+
+// 公共样式
+// 封装本地存储方法
+// pinia的使用以及持久化
+// 页面鉴权
+// 获取用户信息
+// token过期的处理
