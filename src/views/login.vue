@@ -78,7 +78,8 @@ const submitForm = () => {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  // 让盒子居中
+  justify-content: center;     
   align-items: center;
   //  background: red;
   .login_box_all {
