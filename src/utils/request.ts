@@ -8,7 +8,7 @@ import axios, {
 import { ElMessage } from 'element-plus'
 
 import { useAuthStore } from '@/stores/auth'
-// import { useRouter } from 'vue-router'
+import router from '@/router/index'
 
 import DOMPurify from 'dompurify'
 type RequestCustomConfig = {
@@ -56,21 +56,23 @@ service.interceptors.response.use(
   },
   async (error: AxiosError<ResponseDataType>) => {
     const store = useAuthStore()
-
+    // var router=useRouter()
     let message = ''
 
     if (error && error.response) {
       switch (error.response.status) {
         case 401:
+          
           message = '登录过期，请重新登录'
-
+         
           // TODO : 清除token,以及用户信息
           await store.resetUser()
 
           // TODO : 回到登录页
-          // router.push('/login')
-
-          window.location.reload()
+          //  window.location.reload()
+          console.log(router,'router');
+          
+              router.push('/login')
 
           break
         case 403:
