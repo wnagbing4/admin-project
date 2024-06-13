@@ -1,6 +1,6 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-<template>404页面</template>
-
 <script lang="ts" setup></script>
+<template>
+  <div>404</div>
+</template>
 
-<style></style>
+<style scoped lang="scss"></style>

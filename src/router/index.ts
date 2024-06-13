@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
+import { useMiddleware } from './middleware'
+
+// 静态路由 任何用户都可以访问的页面
+// 动态路由 拥有对应权限才能访问的页面
+
 const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -7,42 +12,39 @@ const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    // redirect: '/dashBoard/home'
-    // @ts-ignore
     component: () => import('@/views/login.vue')
   },
   {
-    path: '/dashBoard',
-    name: 'DashBoard',
+    path: '/dashboard',
+    name: 'Dashboard',
     meta: { name: '首页' },
     children: [
       {
         path: 'home',
         name: 'Home',
         meta: { name: '面板' },
-        // @ts-ignore
         component: () => import('@/views/home.vue')
       }
     ]
   },
-  // {
-  //   path: '/404',
-  //   name: '404',
-  //   // @ts-ignore
-  //   component: () => import('@/views/404.vue')
-  // }
   {
-    path: '/:catchAll(.*)',
+    path: '/404',
     component: () => import('@/views/404.vue')
   }
+  // {
+  //   path: '/:catchAll(.*)',
+  //   component: () => import('@/views/404.vue')
+  // }
 ]
-// @ts-ignore
+
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: constantRoutes,
   scrollBehavior() {
     return { top: 0 }
   }
 })
+
+useMiddleware(router)
 
 export default router

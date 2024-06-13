@@ -1,68 +1,34 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-<template>
-  <div class="login_box">
-    <div class="login_box_all">
-      <div class="title">
-        <p class="title_first">用户登录</p>
-        <p class="title_second">青牛前端后台管理系统</p>
-      </div>
-      <div class="form_box">
-        <el-form ref="loginFormRef" :model="loginForm" :rules="rules">
-          <el-form-item prop="username">
-            <el-input v-model="loginForm.username" />
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input show-password v-model="loginForm.password" />
-          </el-form-item>
-          <el-form-item>
-            <el-button :loading='loading' class="submit" type="primary" @click="submitForm">
-              登录
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type {  FormInstance, FormRules } from 'element-plus'
-// @ts-ignore
-import {login} from '@/api/login'
-interface loginRuleForm {
-  username: string;
-   password:string;
-  
-}
-const loginFormRef = ref<FormInstance>()
-const loginForm = reactive<loginRuleForm>({
+import type { FormInstance, FormRules } from 'element-plus'
+import type { LoginDataType } from '@/api/types/loginType'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const store = useAuthStore()
+
+const loginForm = reactive<LoginDataType>({
   username: 'admin',
-  password:''
+  password: 'abc12345'
 })
 
-const loading=ref<boolean>(false)
-const rules = reactive<FormRules<loginRuleForm>>({
-  username: [
-    { required: true, message: '输入用户名', trigger: 'blur' },
-  ],
-  password: [
-    { required: true, message: '输入用户密码', trigger: 'blur' },
-  ],
+const rules = reactive<FormRules<LoginDataType>>({
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }]
 })
 
-const submitForm = () => {
+const loginFormRef = ref<FormInstance>()
+const loading = ref<boolean>(false)
+
+const handleLogin = () => {
   loginFormRef.value!.validate(async (valid: boolean) => {
     if (valid) {
       loading.value = true
 
       try {
-        const res = await login(loginForm)
-        console.log('Res=>', res)
-
-        // TODO : 存储token
-        // TODO : 获取用户信息 , 路由守卫
+        const res = await store.userLogin(loginForm)
         // TODO : 跳转到主页
+        if (res) router.push('/')
       } catch (e) {
         console.log(e)
       } finally {
@@ -72,40 +38,62 @@ const submitForm = () => {
   })
 }
 </script>
+<template>
+  <div class="login-wrapper">
+    <div class="login-content">
+      <div class="info">
+        <p class="title">用户登录</p>
+        <p class="sub-title">青牛前端后台管理系统</p>
+      </div>
+      <el-form ref="loginFormRef" :model="loginForm" :rules="rules">
+        <el-form-item prop="username">
+          <el-input v-model="loginForm.username" placeholder="输入用户名" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input show-password v-model="loginForm.password" placeholder="输入用户密码" />
+        </el-form-item>
 
-<style lang="scss" scoped>
-.login_box {
+        <el-form-item>
+          <el-button :loading="loading" class="submit" type="primary" @click="handleLogin">
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.login-wrapper {
   width: 100%;
   height: 100%;
+
   display: flex;
-  // 让盒子居中
-  justify-content: center;     
+  justify-content: center;
   align-items: center;
-  //  background: red;
-  .login_box_all {
+
+  .login-content {
     width: 400px;
-    //  height: ;
-    .title {
-      width: 100%;
+    padding: 0 26px 24px 26px;
+
+    .info {
       text-align: center;
-      //  padding: 0 10px;
-      .title_first {
-        font-size: 26px;
+      padding: 12px;
+
+      .title {
+        font-size: 24px;
+        padding: 10px 0;
       }
-      .title_second {
-        margin-top: 10px;
+
+      .sub-title {
         font-size: 14px;
-        color: #909399;
+        color: #999;
       }
     }
-    .form_box{
-        width:100%;
-        margin-top:20px;
-        .submit{
-            width: 100%;
-        }
+
+    .submit {
+      width: 100%;
     }
   }
 }
-</style> 
-
+</style>

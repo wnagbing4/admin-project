@@ -1,11 +1,7 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+<script lang="ts" setup></script>
 <template>
-  <RouterView />
+  123
+  <router-view></router-view>
 </template>
-<script lang="ts" setup>
 
-import { defineComponent } from 'vue'
-
-</script>
-
-<style></style>
+<style scoped lang="scss"></style>
