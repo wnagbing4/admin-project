@@ -16,7 +16,9 @@
     "prod": "vite --mode production"
   },
   "dependencies": {
+    "@types/dompurify": "^3.0.5",
     "axios": "^1.7.2",
+    "dompurify": "^3.1.5",
     "element-plus": "^2.7.5",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",

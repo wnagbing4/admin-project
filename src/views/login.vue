@@ -61,9 +61,7 @@ const submitForm = () => {
         console.log('Res=>', res)
 
         // TODO : 存储token
-
         // TODO : 获取用户信息 , 路由守卫
-
         // TODO : 跳转到主页
       } catch (e) {
         console.log(e)
@@ -108,6 +106,5 @@ const submitForm = () => {
     }
   }
 }
-</style>import { login } from '@/api/login';
-import { login } from '@/api/login';
+</style>
 
