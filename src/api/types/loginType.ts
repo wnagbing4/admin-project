@@ -32,3 +32,26 @@ export interface Role {
   updatedAt: string
   [property: string]: any
 }
+
+// 返回的菜单数据类型
+export interface ResponseMenuListType {
+  children?: Child[]
+  component: string
+  icon: string
+  id: number
+  isParent: boolean
+  link: string
+  menuname: string
+  parentid: number
+}
+
+export interface Child {
+  component: string
+  icon: string
+  id: number
+  isParent: boolean
+  link: string
+  menuname: string
+  parentid: number
+  children?: Child[]
+}

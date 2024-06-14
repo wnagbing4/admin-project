@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type { LoginDataType, ResponseUserInfoType } from './types/loginType'
+import type { LoginDataType, ResponseMenuListType, ResponseUserInfoType } from './types/loginType'
 
 /**
  * 登录接口
@@ -16,4 +16,12 @@ export const login = (data: LoginDataType) => {
  */
 export const getUserInfo = () => {
   return request<ResponseUserInfoType>({ url: '/user/info', method: 'GET' })
+}
+
+/**
+ * 获取菜单数据
+ * @returns
+ */
+export const getMenuList = () => {
+  return request<ResponseMenuListType[]>({ url: '/user/menus', method: 'GET' })
 }

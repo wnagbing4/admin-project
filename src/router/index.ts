@@ -18,6 +18,7 @@ const constantRoutes: RouteRecordRaw[] = [
     path: '/dashboard',
     name: 'Dashboard',
     meta: { name: '首页' },
+    component: () => import('@/layouts/index.vue'),
     children: [
       {
         path: 'home',
@@ -30,11 +31,11 @@ const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/404',
     component: () => import('@/views/404.vue')
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: () => import('@/views/404.vue')
   }
-  // {
-  //   path: '/:catchAll(.*)',
-  //   component: () => import('@/views/404.vue')
-  // }
 ]
 
 const router = createRouter({

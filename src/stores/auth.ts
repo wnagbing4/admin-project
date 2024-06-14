@@ -1,13 +1,19 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { LoginDataType, ResponseUserInfoType } from '@/api/types/loginType'
-import { login, getUserInfo } from '@/api/login'
+import type {
+  LoginDataType,
+  ResponseMenuListType,
+  ResponseUserInfoType
+} from '@/api/types/loginType'
+import { login, getUserInfo, getMenuList } from '@/api/login'
 
 export const useAuthStore = defineStore(
   'auth',
   () => {
     const token = ref<string>()
     const info = ref<ResponseUserInfoType | null>(null)
+    const menuList = ref<ResponseMenuListType[] | null>(null)
+    const isCollapse = ref<boolean>(false)
 
     // 设置token
     const setToken = (value: string) => {
@@ -38,6 +44,17 @@ export const useAuthStore = defineStore(
       }
     }
 
+    // 存储菜单数据方法
+    const getMenu = async () => {
+      try {
+        const res = await getMenuList()
+        menuList.value = res.data
+        return res.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     // 重置token与用户信息
     const resetUser = () => {
       console.log('aaa')
@@ -45,18 +62,27 @@ export const useAuthStore = defineStore(
       info.value = null
     }
 
+    // 修改collapse的状态
+    const setCollapse = () => {
+      isCollapse.value = !isCollapse.value
+    }
+
     return {
       token,
       userLogin,
       info,
       userInfo,
-      resetUser
+      resetUser,
+      getMenu,
+      menuList,
+      isCollapse,
+      setCollapse
     }
   },
   {
     persist: {
       storage: localStorage,
-      paths: ['token']
+      paths: ['token', 'info']
     }
   }
 )

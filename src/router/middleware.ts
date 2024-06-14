@@ -20,7 +20,9 @@ Object.keys(routeFiles).forEach((routeModule: string) => {
 
 // 4. 动态添加路由
 export const useMiddleware = (router: Router) => {
+  let registerRouteFresh = true
   router.beforeEach(async (to, from, next) => {
+    console.log('to', to)
     const store = useAuthStore()
     const token = store.token
 
@@ -34,21 +36,23 @@ export const useMiddleware = (router: Router) => {
       if (to.path === '/login') {
         next(from.fullPath)
       } else {
-        console.log('store.info', store.info)
-        if (!store.info) {
-          const res = await store.userInfo()
-          if (res) next()
+        const res = await store.userInfo()
+        const menuList = await store.getMenu()
+        if (res && menuList) {
+          if (registerRouteFresh) {
+            routeConfiguras.forEach((route: any) => {
+              router.addRoute(route)
+            })
+
+            registerRouteFresh = false
+            next({ path: to.path, replace: true })
+          } else {
+            next()
+          }
         } else {
-          next()
+          next('/login')
         }
       }
     }
-
-    // routeConfiguras.forEach((routeModule: RouteRecordRaw) => {
-    //   router.addRoute(routeModule)
-    // })
-    // nextTick(() => {
-    //   return next()
-    // })
   })
 }
