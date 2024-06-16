@@ -20,4 +20,8 @@ import Header from './Header.vue'
   </el-container>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-header{
+   height: 20%;
+}
+</style>

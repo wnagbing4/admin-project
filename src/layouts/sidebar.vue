@@ -1,20 +1,21 @@
 <script lang="ts" setup>
-import sidebarItem from './sidebarItem.vue'
-import { useAuthStore } from '@/stores/auth'
-const store = useAuthStore()
+import sidebarItem from "./sidebarItem.vue";
+import { useAuthStore } from "@/stores/auth";
+import { computed } from "vue";
+const store = useAuthStore();
 
 // 递归: 自身调用自身, 遇到一定的条件进行停止
 // 递归组件: 组件自身调用组件自身, 遇到一定的条件进行停止
 
 const menuList = computed(() => {
-  return store.menuList
-})
+  return store.menuList;
+});
 
 const isCollapse = computed(() => {
-  return store.isCollapse
-})
+  return store.isCollapse;
+});
 
-console.log('menuList', menuList)
+console.log("menuList", menuList);
 </script>
 <template>
   <div class="sidebar-wrapper" :style="{ width: isCollapse ? '60px' : '200px' }">
@@ -29,6 +30,7 @@ console.log('menuList', menuList)
       :default-active="$route.path"
       text-color="#fff"
       router
+      unique-opened
       :collapse="isCollapse"
     >
       <el-menu-item index="/dashboard/home">
