@@ -23,7 +23,7 @@ const constantRoutes: RouteRecordRaw[] = [
       {
         path: 'home',
         name: 'Home',
-        meta: { name: '面板' },
+        meta: { name: '面板', icon: 'yibiaopan' },
         component: () => import('@/views/home.vue')
       }
     ]

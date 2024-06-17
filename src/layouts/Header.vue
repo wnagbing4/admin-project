@@ -1,10 +1,6 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
-// @ts-ignore
 import { useAuthStore } from '@/stores/auth'
-import {Expand,Fold} from '@element-plus/icons-vue'
-// @ts-ignore
-import Tags from './Tag.vue'
+import Tags from './tags.vue'
 const store = useAuthStore()
 
 const handleCollapse = () => {
@@ -55,7 +51,7 @@ const handleCommand = async (command: string) => {
 
 <style scoped lang="scss">
 .header-wrapper {
-    height: 20%;
+  //   height: 100%;
   height: 64px;
   width: 100%;
   font-size: 18px;
@@ -81,5 +77,4 @@ const handleCommand = async (command: string) => {
     outline: none;
   }
 }
-
 </style>

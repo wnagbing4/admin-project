@@ -24,7 +24,7 @@ export const useAuthStore = defineStore(
     const userLogin = async (loginForm: LoginDataType) => {
       try {
         const res = await login(loginForm)
-        console.log('res=>', res)
+
         setToken(res.data)
         return res
       } catch (error) {
@@ -36,7 +36,6 @@ export const useAuthStore = defineStore(
     const userInfo = async () => {
       try {
         const res = await getUserInfo()
-        console.log('Res=>', res)
         info.value = res.data
         return res
       } catch (error) {
@@ -57,7 +56,6 @@ export const useAuthStore = defineStore(
 
     // 重置token与用户信息
     const resetUser = () => {
-      console.log('aaa')
       token.value = ''
       info.value = null
     }

@@ -10,7 +10,8 @@ defineProps<{
   <template v-if="item.children && item.children.length > 0">
     <el-sub-menu :index="item.link">
       <template #title>
-        <el-icon><location /></el-icon>
+        <el-icon> <span :class="item.icon"></span></el-icon>
+
         <span>{{ item.menuname }}</span>
       </template>
 
@@ -23,7 +24,7 @@ defineProps<{
   </template>
   <!-- 没有子菜单 -->
   <el-menu-item v-else :index="item.link">
-    <el-icon><setting /></el-icon>
+    <el-icon> <span :class="item.icon"></span></el-icon>
     <span>{{ item.menuname }}</span>
   </el-menu-item>
 </template>

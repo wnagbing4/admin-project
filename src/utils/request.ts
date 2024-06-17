@@ -49,7 +49,6 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log('response=>', response)
     if (response.data.code === 200) {
       return response.data
     }
@@ -86,7 +85,7 @@ service.interceptors.response.use(
           message = (error.response.data && error.response.data.msg) || '网络错误'
       }
     }
-    console.log('123')
+
     ElMessage({
       message,
       type: 'error',
@@ -124,7 +123,6 @@ const request = <T = any>(options: AxiosRequestConfig, customConfig?: RequestCus
     if (options.method?.toLocaleUpperCase() === 'GET' && options.params) {
       for (const key in options.params) {
         options.params[key] = DOMPurify.sanitize(options.params[key])
-        console.log('options.params', options.params)
       }
     }
   }

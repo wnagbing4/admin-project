@@ -8,4 +8,5 @@ import { RouterView } from 'vue-router'
 
 <style lang="scss">
 @import url('@/assets/style/common.scss');
+@import url('@/assets/style/font.css');
 </style>
